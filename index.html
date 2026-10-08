@@ -1,0 +1,2185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ragul K — .NET Developer</title>
+
+  <meta
+    name="description"
+    content="Ragul K — Computer Science graduate and aspiring .NET Developer skilled in C#, ASP.NET Core MVC, Entity Framework Core, SQL Server and .NET MAUI."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    /* ============================================
+       DESIGN TOKENS
+       ============================================ */
+
+    :root {
+      --bg: #12151c;
+      --bg-raised: #191d26;
+      --bg-inset: #0d0f15;
+      --line: #262b38;
+
+      --text: #e9e7e1;
+      --text-dim: #9aa0b0;
+      --text-faint: #565d6f;
+
+      --amber: #e8a94c;
+      --amber-dim: #a97d3d;
+
+      --teal: #6bb3a8;
+
+      --mono: 'IBM Plex Mono', ui-monospace, monospace;
+      --sans: 'IBM Plex Sans', -apple-system, sans-serif;
+
+      --max: 1040px;
+      --edge: clamp(24px, 6vw, 72px);
+    }
+
+
+    /* ============================================
+       RESET
+       ============================================ */
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+      background: var(--amber);
+      color: var(--bg);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 var(--edge);
+    }
+
+
+    /* ============================================
+       BACKGROUND GRID
+       ============================================ */
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+
+      background-size: 64px 64px;
+      opacity: 0.15;
+
+      pointer-events: none;
+      z-index: 0;
+    }
+
+
+    /* ============================================
+       SECTION LABEL
+       ============================================ */
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--teal);
+      letter-spacing: 0.02em;
+      margin-bottom: 14px;
+
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .eyebrow::before {
+      content: '//';
+      color: var(--text-faint);
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: var(--mono);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+
+    /* ============================================
+       NAVIGATION
+       ============================================ */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+
+      background: rgba(18, 21, 28, 0.72);
+      backdrop-filter: blur(14px) saturate(140%);
+
+      border-bottom: 1px solid var(--line);
+
+      transition:
+        border-color 0.3s ease,
+        background 0.3s ease;
+    }
+
+    header.scrolled {
+      background: rgba(15, 18, 24, 0.92);
+      box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    nav {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 16px var(--edge);
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-family: var(--mono);
+      font-weight: 600;
+      font-size: 15px;
+
+      color: var(--text);
+
+      display: flex;
+      align-items: center;
+      gap: 9px;
+
+      letter-spacing: -0.01em;
+    }
+
+    .logo .bracket {
+      color: var(--amber-dim);
+    }
+
+    .logo span.name {
+      color: var(--amber);
+    }
+
+    .logo:hover .bracket {
+      color: var(--amber);
+      transition: color 0.2s ease;
+    }
+
+    .navlinks {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      list-style: none;
+    }
+
+    .navlinks li {
+      position: relative;
+    }
+
+    .navlinks a {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-dim);
+
+      transition: color 0.2s ease;
+
+      position: relative;
+
+      padding: 8px 14px;
+
+      display: flex;
+      align-items: center;
+      gap: 7px;
+
+      border-radius: 5px;
+    }
+
+    .navlinks a .idx {
+      color: var(--text-faint);
+      font-size: 11px;
+    }
+
+    .navlinks a:hover {
+      color: var(--text);
+      background: var(--bg-raised);
+    }
+
+    .navlinks a:hover .idx {
+      color: var(--amber);
+    }
+
+    .navlinks a.active {
+      color: var(--text);
+    }
+
+    .navlinks a.active .idx {
+      color: var(--amber);
+    }
+
+    .navlinks a.active::after {
+      content: '';
+
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 2px;
+
+      height: 1.5px;
+      background: var(--amber);
+    }
+
+    .navlinks a:focus-visible,
+    a:focus-visible {
+      outline: 2px solid var(--amber);
+      outline-offset: 3px;
+      border-radius: 2px;
+    }
+
+    .nav-resume {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      font-weight: 500;
+
+      border: 1px solid var(--line);
+
+      padding: 9px 16px;
+      border-radius: 5px;
+
+      margin-left: 12px;
+
+      color: var(--text);
+
+      transition:
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+
+      white-space: nowrap;
+    }
+
+    .nav-resume:hover {
+      border-color: var(--amber);
+      color: var(--amber);
+      transform: translateY(-1px);
+    }
+
+    .nav-toggle {
+      display: none;
+    }
+
+
+    /* ============================================
+       HERO
+       ============================================ */
+
+    .hero {
+      position: relative;
+      z-index: 1;
+
+      max-width: var(--max);
+      margin: 0 auto;
+
+      min-height: calc(100svh - 64px);
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      padding: 64px var(--edge) 56px;
+    }
+
+    .prompt-line {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-faint);
+
+      margin-bottom: 20px;
+    }
+
+    .prompt-line .cursor {
+      display: inline-block;
+
+      width: 8px;
+      height: 15px;
+
+      background: var(--amber);
+
+      margin-left: 4px;
+
+      animation: blink 1s step-end infinite;
+
+      vertical-align: -2px;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 5.4vw, 60px);
+      line-height: 1.1;
+
+      color: var(--text);
+
+      max-width: 18ch;
+    }
+
+    .hero h1 .accent {
+      color: var(--amber);
+    }
+
+    .hero .role {
+      font-family: var(--mono);
+      font-size: clamp(15px, 2vw, 18px);
+
+      color: var(--teal);
+
+      margin-top: 16px;
+
+      font-weight: 500;
+
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero .role::before {
+      content: '';
+
+      width: 8px;
+      height: 8px;
+
+      border-radius: 50%;
+
+      background: var(--teal);
+
+      box-shadow:
+        0 0 0 4px rgba(107, 179, 168, 0.15);
+    }
+
+    .hero p.bio {
+      max-width: 650px;
+
+      margin-top: 22px;
+
+      color: var(--text-dim);
+
+      font-size: 16.5px;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+
+      margin-top: 34px;
+
+      flex-wrap: wrap;
+    }
+
+    .scroll-hint {
+      position: absolute;
+
+      left: var(--edge);
+      bottom: 28px;
+
+      font-family: var(--mono);
+      font-size: 11px;
+
+      color: var(--text-faint);
+
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scroll-hint .line {
+      width: 24px;
+      height: 1px;
+
+      background: var(--text-faint);
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 13.5px;
+      font-weight: 500;
+
+      padding: 13px 24px;
+
+      border-radius: 4px;
+
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      transition:
+        transform 0.15s ease,
+        background 0.15s ease,
+        border-color 0.15s ease;
+    }
+
+    .btn-primary {
+      background: var(--amber);
+      color: var(--bg-inset);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      background: #f0b968;
+    }
+
+    .btn-ghost {
+      border: 1px solid var(--line);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--amber-dim);
+      color: var(--amber);
+      transform: translateY(-2px);
+    }
+
+
+    /* ============================================
+       SECTIONS
+       ============================================ */
+
+    section {
+      position: relative;
+      z-index: 1;
+
+      padding: 88px var(--edge);
+
+      border-top: 1px solid var(--line);
+    }
+
+    section > .inner {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 3.4vw, 34px);
+
+      margin-bottom: 36px;
+    }
+
+
+    /* ============================================
+       ABOUT
+       ============================================ */
+
+    .about-grid {
+      display: grid;
+
+      grid-template-columns: 1.3fr 1fr;
+
+      gap: 56px;
+
+      align-items: start;
+    }
+
+    .about-grid p {
+      color: var(--text-dim);
+
+      font-size: 16.5px;
+
+      margin-bottom: 16px;
+
+      max-width: 560px;
+    }
+
+    .facts {
+      font-family: var(--mono);
+      font-size: 13.5px;
+
+      border: 1px solid var(--line);
+
+      border-radius: 6px;
+
+      padding: 22px;
+
+      background: var(--bg-raised);
+    }
+
+    .facts dt {
+      color: var(--text-faint);
+
+      margin-top: 14px;
+    }
+
+    .facts dt:first-child {
+      margin-top: 0;
+    }
+
+    .facts dd {
+      color: var(--text);
+
+      margin-top: 2px;
+    }
+
+
+    /* ============================================
+       SKILLS
+       ============================================ */
+
+    .skill-groups {
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(220px, 1fr));
+
+      gap: 28px;
+    }
+
+    .skill-group h3 {
+      font-size: 13px;
+
+      color: var(--text-faint);
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.08em;
+
+      margin-bottom: 14px;
+
+      font-weight: 500;
+    }
+
+    .pills {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 8px;
+    }
+
+    .pill {
+      font-family: var(--mono);
+
+      font-size: 13px;
+
+      padding: 7px 12px;
+
+      border: 1px solid var(--line);
+
+      border-radius: 4px;
+
+      color: var(--text-dim);
+
+      background: var(--bg-raised);
+
+      transition:
+        border-color 0.2s ease,
+        color 0.2s ease;
+    }
+
+    .pill:hover {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+
+
+    /* ============================================
+       PROJECTS
+       ============================================ */
+
+    .project-grid {
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(300px, 1fr));
+
+      gap: 20px;
+    }
+
+    .project-card {
+      border: 1px solid var(--line);
+
+      border-radius: 8px;
+
+      padding: 26px;
+
+      background: var(--bg-raised);
+
+      display: flex;
+      flex-direction: column;
+
+      gap: 14px;
+
+      transition:
+        border-color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .project-card:hover {
+      border-color: var(--amber-dim);
+
+      transform: translateY(-3px);
+    }
+
+    .project-head {
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 12px;
+    }
+
+    .project-file {
+      font-family: var(--mono);
+
+      font-size: 11.5px;
+
+      color: var(--text-faint);
+    }
+
+    .project-card h3 {
+      font-size: 18px;
+
+      color: var(--text);
+    }
+
+    .project-card p {
+      color: var(--text-dim);
+
+      font-size: 14.5px;
+
+      flex-grow: 1;
+    }
+
+    .tech-tags {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 6px;
+    }
+
+    .tech-tags span {
+      font-family: var(--mono);
+
+      font-size: 11px;
+
+      color: var(--teal);
+
+      background: rgba(107, 179, 168, 0.08);
+
+      border: 1px solid rgba(107, 179, 168, 0.25);
+
+      padding: 3px 8px;
+
+      border-radius: 3px;
+    }
+
+    .project-links {
+      display: flex;
+
+      gap: 16px;
+
+      margin-top: 4px;
+    }
+
+    .project-links a {
+      font-family: var(--mono);
+
+      font-size: 12.5px;
+
+      color: var(--text-dim);
+
+      border-bottom: 1px solid transparent;
+
+      padding-bottom: 1px;
+    }
+
+    .project-links a:hover {
+      color: var(--amber);
+
+      border-color: var(--amber);
+    }
+
+
+    /* ============================================
+       EDUCATION
+       ============================================ */
+
+    .edu-list {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 0;
+    }
+
+    .edu-item {
+      padding: 24px 0;
+
+      border-top: 1px solid var(--line);
+    }
+
+    .edu-item:first-child {
+      border-top: 1px solid var(--line);
+    }
+
+    .edu-top {
+      display: flex;
+
+      align-items: baseline;
+
+      justify-content: space-between;
+
+      gap: 16px;
+
+      flex-wrap: wrap;
+    }
+
+    .edu-top h3 {
+      font-size: 18px;
+
+      color: var(--text);
+    }
+
+    .edu-year {
+      font-family: var(--mono);
+
+      font-size: 12.5px;
+
+      color: var(--amber);
+
+      white-space: nowrap;
+    }
+
+    .edu-sub {
+      font-family: var(--mono);
+
+      font-size: 13px;
+
+      color: var(--teal);
+
+      margin-top: 6px;
+    }
+
+    .edu-detail {
+      color: var(--text-dim);
+
+      font-size: 14.5px;
+
+      margin-top: 8px;
+
+      max-width: 640px;
+    }
+
+
+    /* ============================================
+       CERTIFICATIONS
+       ============================================ */
+
+    .cert-list {
+      display: grid;
+
+      grid-template-columns:
+        repeat(auto-fit, minmax(250px, 1fr));
+
+      gap: 16px;
+    }
+
+    .cert-card {
+      border: 1px solid var(--line);
+
+      background: var(--bg-raised);
+
+      border-radius: 6px;
+
+      padding: 20px;
+
+      transition:
+        border-color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .cert-card:hover {
+      border-color: var(--teal);
+
+      transform: translateY(-2px);
+    }
+
+    .cert-card .cert-label {
+      font-family: var(--mono);
+
+      font-size: 11px;
+
+      color: var(--text-faint);
+
+      text-transform: uppercase;
+
+      letter-spacing: 0.08em;
+
+      margin-bottom: 8px;
+    }
+
+    .cert-card h3 {
+      font-size: 15px;
+
+      color: var(--text);
+    }
+
+
+    /* ============================================
+       INTERNSHIP
+       ============================================ */
+
+    .experience-card {
+      border: 1px solid var(--line);
+
+      background: var(--bg-raised);
+
+      border-radius: 8px;
+
+      padding: 26px;
+
+      max-width: 760px;
+    }
+
+    .experience-top {
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: baseline;
+
+      gap: 16px;
+
+      flex-wrap: wrap;
+    }
+
+    .experience-top h3 {
+      font-size: 19px;
+
+      color: var(--text);
+    }
+
+    .experience-duration {
+      font-family: var(--mono);
+
+      font-size: 12px;
+
+      color: var(--amber);
+    }
+
+    .experience-company {
+      font-family: var(--mono);
+
+      font-size: 13px;
+
+      color: var(--teal);
+
+      margin-top: 6px;
+    }
+
+    .experience-card p {
+      color: var(--text-dim);
+
+      font-size: 14.5px;
+
+      margin-top: 14px;
+    }
+
+
+    /* ============================================
+       CONTACT
+       ============================================ */
+
+    .contact-inner {
+      text-align: left;
+    }
+
+    .contact-inner .section-title {
+      margin-bottom: 16px;
+    }
+
+    .contact-inner p {
+      color: var(--text-dim);
+
+      max-width: 600px;
+
+      margin-bottom: 32px;
+
+      font-size: 16.5px;
+    }
+
+    .contact-links {
+      display: flex;
+
+      flex-wrap: wrap;
+
+      gap: 14px;
+    }
+
+    .contact-link {
+      font-family: var(--mono);
+
+      font-size: 14px;
+
+      border: 1px solid var(--line);
+
+      padding: 14px 20px;
+
+      border-radius: 6px;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      color: var(--text);
+
+      transition:
+        border-color 0.2s ease,
+        transform 0.2s ease;
+    }
+
+    .contact-link:hover {
+      border-color: var(--amber);
+
+      transform: translateY(-2px);
+
+      color: var(--amber);
+    }
+
+    .contact-link .dot {
+      width: 6px;
+      height: 6px;
+
+      border-radius: 50%;
+
+      background: var(--teal);
+    }
+
+
+    /* ============================================
+       FOOTER
+       ============================================ */
+
+    footer {
+      border-top: 1px solid var(--line);
+
+      padding: 32px var(--edge);
+
+      font-family: var(--mono);
+
+      font-size: 12.5px;
+
+      color: var(--text-faint);
+
+      display: flex;
+
+      justify-content: space-between;
+
+      flex-wrap: wrap;
+
+      gap: 10px;
+
+      max-width: var(--max);
+
+      margin: 0 auto;
+    }
+
+
+    /* ============================================
+       SCROLL REVEAL
+       ============================================ */
+
+    .reveal {
+      opacity: 0;
+
+      transform: translateY(16px);
+
+      transition:
+        opacity 0.6s ease,
+        transform 0.6s ease;
+    }
+
+    .reveal.in {
+      opacity: 1;
+
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      html {
+        scroll-behavior: auto;
+      }
+
+      .reveal {
+        opacity: 1;
+
+        transform: none;
+
+        transition: none;
+      }
+
+      .cursor {
+        animation: none;
+      }
+    }
+
+
+    /* ============================================
+       RESPONSIVE
+       ============================================ */
+
+    @media (max-width: 760px) {
+
+      .navlinks {
+        position: fixed;
+
+        top: 60px;
+
+        left: 0;
+        right: 0;
+
+        bottom: 0;
+
+        background: var(--bg);
+
+        flex-direction: column;
+
+        padding: 32px var(--edge);
+
+        gap: 24px;
+
+        transform: translateX(100%);
+
+        transition: transform 0.25s ease;
+      }
+
+      .navlinks.open {
+        transform: translateX(0);
+      }
+
+      .nav-toggle {
+        display: block;
+
+        font-family: var(--mono);
+
+        background: none;
+
+        border: 1px solid var(--line);
+
+        color: var(--text);
+
+        padding: 8px 12px;
+
+        border-radius: 4px;
+
+        font-size: 13px;
+
+        cursor: pointer;
+      }
+
+      .nav-resume {
+        display: none;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 88px var(--edge) 64px;
+      }
+
+      .scroll-hint {
+        display: none;
+      }
+
+      section {
+        padding-top: 70px;
+        padding-bottom: 70px;
+      }
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+  <!-- ============================================
+       HEADER
+       ============================================ -->
+
+  <header id="siteHeader">
+
+    <nav>
+
+      <a href="#top" class="logo">
+        <span class="bracket">&lt;</span>
+        <span class="name">Ragul K</span>
+        <span class="bracket">/&gt;</span>
+      </a>
+
+
+      <button
+        class="nav-toggle"
+        id="navToggle"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+      >
+        menu
+      </button>
+
+
+      <ul class="navlinks" id="navLinks">
+
+        <li>
+          <a href="#about" class="nav-link">
+            <span class="idx">01</span>
+            about
+          </a>
+        </li>
+
+        <li>
+          <a href="#skills" class="nav-link">
+            <span class="idx">02</span>
+            skills
+          </a>
+        </li>
+
+        <li>
+          <a href="#projects" class="nav-link">
+            <span class="idx">03</span>
+            projects
+          </a>
+        </li>
+
+        <li>
+          <a href="#experience" class="nav-link">
+            <span class="idx">04</span>
+            experience
+          </a>
+        </li>
+
+        <li>
+          <a href="#education" class="nav-link">
+            <span class="idx">05</span>
+            education
+          </a>
+        </li>
+
+        <li>
+          <a href="#contact" class="nav-link">
+            <span class="idx">06</span>
+            contact
+          </a>
+        </li>
+
+      </ul>
+
+
+      <!-- Replace this with your actual resume file -->
+      <a href="RAGUL_K_Resume.pdf" class="nav-resume" download>
+        Resume ↓
+      </a>
+
+    </nav>
+
+  </header>
+
+
+
+  <main id="top">
+
+
+    <!-- ============================================
+         HERO
+         ============================================ -->
+
+    <section class="hero" style="border-top:none;">
+
+      <div class="prompt-line">
+        ragul@developer:~$ whoami<span class="cursor"></span>
+      </div>
+
+
+      <h1>
+        Hi, I'm <span class="accent">Ragul K</span> —
+        an aspiring Software Developer.
+      </h1>
+
+
+      <div class="role">
+        .NET Developer · C# · ASP.NET Core · Full-Stack Development
+      </div>
+
+
+      <p class="bio">
+        Computer Science graduate with hands-on experience in
+        ASP.NET Core MVC, C#, Entity Framework Core, SQL Server,
+        and .NET MAUI. I enjoy building practical applications,
+        solving problems, and turning ideas into clean,
+        maintainable software.
+      </p>
+
+
+      <div class="hero-cta">
+
+        <a href="#projects" class="btn btn-primary">
+          View my projects →
+        </a>
+
+        <a href="#contact" class="btn btn-ghost">
+          Get in touch
+        </a>
+
+      </div>
+
+
+      <div class="scroll-hint">
+        <span class="line"></span>
+        scroll to explore
+      </div>
+
+    </section>
+
+
+
+    <!-- ============================================
+         ABOUT
+         ============================================ -->
+
+    <section id="about">
+
+      <div class="inner">
+
+        <div class="eyebrow">
+          about
+        </div>
+
+
+        <h2 class="section-title reveal">
+          A bit more about me
+        </h2>
+
+
+        <div class="about-grid">
+
+
+          <div class="reveal">
+
+            <p>
+              I'm a Computer Science graduate with hands-on
+              experience building web and application-based
+              projects using the .NET ecosystem.
+            </p>
+
+
+            <p>
+              My primary interests are backend development,
+              MVC architecture, database-driven applications,
+              and problem solving. I have worked with C#,
+              ASP.NET Core MVC, Entity Framework Core,
+              SQL Server and .NET MAUI.
+            </p>
+
+
+            <p>
+              I'm currently looking for an entry-level
+              Software Developer / .NET Developer opportunity
+              where I can contribute to real-world projects,
+              improve my technical skills, and grow as a
+              software professional.
+            </p>
+
+          </div>
+
+
+          <dl class="facts reveal">
+
+            <dt>location</dt>
+            <dd>Tamil Nadu, India</dd>
+
+
+            <dt>status</dt>
+            <dd>Fresher · Open to opportunities</dd>
+
+
+            <dt>role</dt>
+            <dd>.NET / Software Developer</dd>
+
+
+            <dt>education</dt>
+            <dd>B.E. Computer Science — 2022–2026</dd>
+
+
+            <dt>cgpa</dt>
+            <dd>7.0 / 10</dd>
+
+          </dl>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ============================================
+         SKILLS
+         ============================================ -->
+
+    <section id="skills">
+
+      <div class="inner">
+
+        <div class="eyebrow">
+          stack
+        </div>
+
+
+        <h2 class="section-title reveal">
+          Technical skills
+        </h2>
+
+
+        <div class="skill-groups reveal">
+
+
+          <!-- LANGUAGES & FRAMEWORKS -->
+
+          <div class="skill-group">
+
+            <h3>
+              Languages & Frameworks
+            </h3>
+
+            <div class="pills">
+
+              <span class="pill">C#</span>
+
+              <span class="pill">ASP.NET Core MVC</span>
+
+              <span class="pill">.NET Core</span>
+
+              <span class="pill">.NET MAUI</span>
+
+              <span class="pill">Entity Framework Core</span>
+
+            </div>
+
+          </div>
+
+
+          <!-- DATABASES -->
+
+          <div class="skill-group">
+
+            <h3>
+              Databases
+            </h3>
+
+            <div class="pills">
+
+              <span class="pill">MS SQL Server</span>
+
+              <span class="pill">MongoDB</span>
+
+            </div>
+
+          </div>
+
+
+          <!-- FRONT END -->
+
+          <div class="skill-group">
+
+            <h3>
+              Front-End
+            </h3>
+
+            <div class="pills">
+
+              <span class="pill">HTML5</span>
+
+              <span class="pill">CSS3</span>
+
+              <span class="pill">JavaScript</span>
+
+              <span class="pill">Bootstrap</span>
+
+              <span class="pill">Razor Views</span>
+
+            </div>
+
+          </div>
+
+
+          <!-- CONCEPTS -->
+
+          <div class="skill-group">
+
+            <h3>
+              Development Concepts
+            </h3>
+
+            <div class="pills">
+
+              <span class="pill">MVC Architecture</span>
+
+              <span class="pill">RESTful APIs</span>
+
+              <span class="pill">OOP</span>
+
+              <span class="pill">CRUD Operations</span>
+
+              <span class="pill">LINQ</span>
+
+              <span class="pill">Database Migrations</span>
+
+            </div>
+
+          </div>
+
+
+          <!-- TOOLS -->
+
+          <div class="skill-group">
+
+            <h3>
+              Tools
+            </h3>
+
+            <div class="pills">
+
+              <span class="pill">Visual Studio</span>
+
+              <span class="pill">VS Code</span>
+
+              <span class="pill">Git</span>
+
+              <span class="pill">GitHub</span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ============================================
+         PROJECTS
+         ============================================ -->
+
+    <section id="projects">
+
+      <div class="inner">
+
+        <div class="eyebrow">
+          projects
+        </div>
+
+
+        <h2 class="section-title reveal">
+          Selected work
+        </h2>
+
+
+        <div class="project-grid">
+
+
+          <!-- BRUTALMART -->
+
+          <div class="project-card reveal">
+
+            <div class="project-head">
+
+              <h3>
+                BrutalMart
+              </h3>
+
+              <span class="project-file">
+                e-commerce
+              </span>
+
+            </div>
+
+
+            <p>
+              A full-featured e-commerce web application
+              developed using ASP.NET Core MVC. The platform
+              includes product catalog, shopping cart,
+              checkout, and order management functionality.
+            </p>
+
+
+            <div class="tech-tags">
+
+              <span>ASP.NET Core MVC</span>
+
+              <span>C#</span>
+
+              <span>EF Core</span>
+
+              <span>SQL Server</span>
+
+              <span>Bootstrap</span>
+
+            </div>
+
+
+            <div class="project-links">
+
+              <a
+                href="https://github.com/ragulragul327a-cpu/BrutalMart"
+                target="_blank"
+                rel="noopener"
+              >
+                GitHub ↗
+              </a>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- EMPLOYEE MANAGEMENT -->
+
+          <div class="project-card reveal">
+
+            <div class="project-head">
+
+              <h3>
+                Employee Management System
+              </h3>
+
+              <span class="project-file">
+                web application
+              </span>
+
+            </div>
+
+
+            <p>
+              A web-based Employee Management System for
+              efficiently managing employee and department
+              information. Implemented complete CRUD operations
+              with database-driven functionality.
+            </p>
+
+
+            <div class="tech-tags">
+
+              <span>ASP.NET Core MVC</span>
+
+              <span>C#</span>
+
+              <span>EF Core</span>
+
+              <span>SQL Server</span>
+
+              <span>LINQ</span>
+
+            </div>
+
+
+            <div class="project-links">
+
+              <a href="#" target="_blank" rel="noopener">
+                GitHub ↗
+              </a>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- CHESS -->
+
+          <div class="project-card reveal">
+
+            <div class="project-head">
+
+              <h3>
+                RoyalChess
+              </h3>
+
+              <span class="project-file">
+                application
+              </span>
+
+            </div>
+
+
+            <p>
+              A two-player chess application built using
+              C#, Object-Oriented Programming, .NET MAUI,
+              and XAML. The application implements chess
+              piece movement, turn-based gameplay, and
+              check/checkmate detection.
+            </p>
+
+
+            <div class="tech-tags">
+
+              <span>C#</span>
+
+              <span>OOP</span>
+
+              <span>.NET MAUI</span>
+
+              <span>XAML</span>
+
+            </div>
+
+
+            <div class="project-links">
+
+              <a href="#" target="_blank" rel="noopener">
+                GitHub ↗
+              </a>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ============================================
+         EXPERIENCE
+         ============================================ -->
+
+    <section id="experience">
+
+      <div class="inner">
+
+        <div class="eyebrow">
+          experience
+        </div>
+
+
+        <h2 class="section-title reveal">
+          Internship
+        </h2>
+
+
+        <div class="experience-card reveal">
+
+          <div class="experience-top">
+
+            <h3>
+              Frontend Development Intern
+            </h3>
+
+            <span class="experience-duration">
+              30 Days
+            </span>
+
+          </div>
+
+
+          <div class="experience-company">
+            SparkOut Tech Solutions · Coimbatore
+          </div>
+
+
+          <p>
+            Completed a 30-day Frontend Development Internship,
+            gaining practical exposure to web development and
+            frontend technologies while working in a professional
+            development environment.
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ============================================
+         EDUCATION
+         ============================================ -->
+
+    <section id="education">
+
+      <div class="inner">
+
+        <div class="eyebrow">
+          education
+        </div>
+
+
+        <h2 class="section-title reveal">
+          Academic background
+        </h2>
+
+
+        <div class="edu-list">
+
+
+          <div class="edu-item reveal">
+
+            <div class="edu-top">
+
+              <h3>
+                Bachelor of Engineering — Computer Science
+              </h3>
+
+              <span class="edu-year">
+                2022 — 2026
+              </span>
+
+            </div>
+
+
+            <div class="edu-sub">
+              PPG Institute of Technology · Anna University
+            </div>
+
+
+            <p class="edu-detail">
+              CGPA: 7.0 / 10
+            </p>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ============================================
+         CERTIFICATIONS
+         ============================================ -->
+
+    <section id="certifications">
+
+      <div class="inner">
+
+        <div class="eyebrow">
+          certifications
+        </div>
+
+
+        <h2 class="section-title reveal">
+          Certifications
+        </h2>
+
+
+        <div class="cert-list">
+
+
+          <div class="cert-card reveal">
+
+            <div class="cert-label">
+              MongoDB University
+            </div>
+
+            <h3>
+              Introduction to MongoDB, AI, and Vector Search
+            </h3>
+
+          </div>
+
+
+          <div class="cert-card reveal">
+
+            <div class="cert-label">
+              IBM
+            </div>
+
+            <h3>
+              Exploring Cybersecurity
+            </h3>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ============================================
+         CONTACT
+         ============================================ -->
+
+    <section id="contact">
+
+      <div class="inner contact-inner">
+
+        <div class="eyebrow">
+          contact
+        </div>
+
+
+        <h2 class="section-title reveal">
+          Let's work together
+        </h2>
+
+
+        <p class="reveal">
+          I'm currently looking for an entry-level Software
+          Developer or .NET Developer opportunity. If you're
+          looking for a motivated fresher with hands-on project
+          experience, feel free to connect with me.
+        </p>
+
+
+        <div class="contact-links reveal">
+
+
+          <!-- EMAIL -->
+
+          <a
+            class="contact-link"
+            href="mailto:ragulkamaraj01@gmail.com"
+          >
+
+            <span class="dot"></span>
+
+            ragulkamaraj01@gmail.com
+
+          </a>
+
+
+          <!-- GITHUB -->
+
+          <a
+            class="contact-link"
+            href="https://github.com/ragulragul327a-cpu"
+            target="_blank"
+            rel="noopener"
+          >
+
+            <span class="dot"></span>
+
+            GitHub
+
+          </a>
+
+
+          <!-- LINKEDIN -->
+
+          <a
+            class="contact-link"
+            href="#"
+            target="_blank"
+            rel="noopener"
+          >
+
+            <span class="dot"></span>
+
+            LinkedIn
+
+          </a>
+
+
+          <!-- PHONE -->
+
+          <a
+            class="contact-link"
+            href="tel:+919629869939"
+          >
+
+            <span class="dot"></span>
+
+            +91 96298 69939
+
+          </a>
+
+
+          <!-- RESUME -->
+
+          <a
+            class="contact-link"
+            href="RAGUL_K_Resume.pdf"
+            download
+          >
+
+            <span class="dot"></span>
+
+            Download Resume ↓
+
+          </a>
+
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+
+  <footer>
+
+    <span>
+      © <span id="year"></span>
+      Ragul K. Built with intent.
+    </span>
+
+
+    <span>
+      back to top ↑
+      <a href="#top" style="color:var(--amber);">
+        top
+      </a>
+    </span>
+
+  </footer>
+
+
+
+  <!-- ============================================
+       JAVASCRIPT
+       ============================================ -->
+
+  <script>
+
+    /* Current year */
+
+    document.getElementById('year').textContent =
+      new Date().getFullYear();
+
+
+
+    /* Mobile navigation */
+
+    const toggle =
+      document.getElementById('navToggle');
+
+    const links =
+      document.getElementById('navLinks');
+
+
+    toggle.addEventListener('click', () => {
+
+      const open =
+        links.classList.toggle('open');
+
+      toggle.setAttribute(
+        'aria-expanded',
+        open
+      );
+
+    });
+
+
+    links
+      .querySelectorAll('a')
+      .forEach(a => {
+
+        a.addEventListener('click', () => {
+
+          links.classList.remove('open');
+
+          toggle.setAttribute(
+            'aria-expanded',
+            false
+          );
+
+        });
+
+      });
+
+
+
+    /* Header background on scroll */
+
+    const header =
+      document.getElementById('siteHeader');
+
+
+    window.addEventListener(
+      'scroll',
+      () => {
+
+        header.classList.toggle(
+          'scrolled',
+          window.scrollY > 20
+        );
+
+      },
+      {
+        passive: true
+      }
+    );
+
+
+
+    /* Scroll spy */
+
+    const navLinkEls =
+      document.querySelectorAll('.nav-link');
+
+
+    const sections =
+      [...navLinkEls]
+        .map(a =>
+          document.querySelector(
+            a.getAttribute('href')
+          )
+        )
+        .filter(Boolean);
+
+
+    const spy =
+      new IntersectionObserver(
+        entries => {
+
+          entries.forEach(entry => {
+
+            const id =
+              '#' + entry.target.id;
+
+
+            const link =
+              document.querySelector(
+                `.nav-link[href="${id}"]`
+              );
+
+
+            if (!link) return;
+
+
+            if (entry.isIntersecting) {
+
+              navLinkEls.forEach(a =>
+                a.classList.remove('active')
+              );
+
+              link.classList.add('active');
+
+            }
+
+          });
+
+        },
+        {
+          rootMargin:
+            '-40% 0px -50% 0px'
+        }
+      );
+
+
+    sections.forEach(section =>
+      spy.observe(section)
+    );
+
+
+
+    /* Scroll reveal */
+
+    const revealEls =
+      document.querySelectorAll('.reveal');
+
+
+    const io =
+      new IntersectionObserver(
+        entries => {
+
+          entries.forEach(entry => {
+
+            if (entry.isIntersecting) {
+
+              entry.target.classList.add('in');
+
+              io.unobserve(entry.target);
+
+            }
+
+          });
+
+        },
+        {
+          threshold: 0.15
+        }
+      );
+
+
+    revealEls.forEach(el =>
+      io.observe(el)
+    );
+
+  </script>
+
+
+</body>
+
+</html>
